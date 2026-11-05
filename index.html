@@ -1,0 +1,792 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Hobbies and Skills</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500&family=Unbounded:wght@500;800&display=swap">
+<style>
+/* Layout: one slide at a time, framed like a handheld HUD: status bar on top, big stage, level dots and buttons below. Hard offset shadows mark only the clickable "level" cards and the main button. */
+:root {
+  --bg: #F1EFF8;
+  --surface: #FFFFFF;
+  --ink: #1C1842;
+  --muted: #57537F;
+  --line: #D6D2EC;
+  --accent-text: #D2361F;
+  --edge: #1C1842;
+  --shadow: #1C1842;
+  --c-games: #FF6B5B;
+  --c-content: #9AA5FF;
+  --c-digital: #FFC53D;
+  --c-code: #3FD2A4;
+  --on-fill: #1C1842;
+  --code-bg: #0E0B26;
+  --font-display: 'Unbounded', 'Arial Black', system-ui, sans-serif;
+  --font-body: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14112E;
+    --surface: #201C48;
+    --ink: #F0EEFF;
+    --muted: #ADA8DA;
+    --line: #38336E;
+    --accent-text: #FF8A7B;
+    --edge: #0B0922;
+    --shadow: #5B54B8;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14112E;
+  --surface: #201C48;
+  --ink: #F0EEFF;
+  --muted: #ADA8DA;
+  --line: #38336E;
+  --accent-text: #FF8A7B;
+  --edge: #0B0922;
+  --shadow: #5B54B8;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent-text); outline-offset: 3px; }
+
+.app {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: clamp(8px, 1.6vh, 16px);
+  padding-block: 12px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  font-size: clamp(15px, calc(0.9vw + 0.9vh), 22px);
+  line-height: 1.45;
+}
+
+/* top bar */
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 1em; }
+.brand {
+  display: flex; align-items: center; gap: .6em;
+  font-family: var(--font-mono); font-size: .7em; text-transform: uppercase;
+  letter-spacing: .12em; color: var(--muted);
+}
+.pip { width: .8em; height: .8em; background: var(--c-games); border: 2px solid var(--edge); border-radius: 3px; flex: none; }
+.tools { display: flex; align-items: center; gap: .5em; }
+.count { font-family: var(--font-mono); font-size: .8em; font-variant-numeric: tabular-nums; color: var(--muted); margin-right: .4em; }
+.icon-btn {
+  width: 2.4em; height: 2.4em; display: grid; place-items: center; cursor: pointer;
+  background: var(--surface); border: 2px solid var(--edge); border-radius: 10px;
+}
+.icon-btn svg { width: 1.15em; height: 1.15em; }
+
+/* stage and slides */
+.stage { min-height: 0; position: relative; }
+.slide {
+  height: 100%; overflow-y: auto; overflow-x: hidden;
+  display: flex; flex-direction: column;
+  padding: .4em .2em;
+  animation: slide-in .35s ease-out both;
+}
+.wrap { width: 100%; max-width: 70em; margin: auto; display: grid; gap: 1.2em; }
+@keyframes slide-in { from { opacity: 0; transform: translateY(10px); } }
+@keyframes fill { from { width: 0; } }
+
+.eyebrow {
+  margin: 0; font-family: var(--font-mono); font-size: .7em; text-transform: uppercase;
+  letter-spacing: .14em; color: var(--accent-text);
+}
+h1, h2, h3 { margin: 0; font-family: var(--font-display); text-wrap: balance; overflow-wrap: anywhere; }
+h2 { font-size: 2em; font-weight: 800; line-height: 1.1; letter-spacing: -.01em; }
+h3 { font-size: 1.02em; font-weight: 500; line-height: 1.25; }
+p { margin: 0; }
+.lead { font-size: 1.15em; color: var(--muted); max-width: 36em; }
+.s-head { display: grid; gap: .5em; }
+
+/* title slide */
+.title-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 2em; align-items: center; }
+.title-copy { display: grid; gap: 1em; }
+h1 { font-size: 3.3em; font-weight: 800; line-height: 1.02; letter-spacing: -.02em; }
+h1 em { font-style: normal; color: var(--accent-text); }
+.by { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5em; margin-top: .6em; font-weight: 500; }
+.name { border-bottom: 2px dashed var(--line); padding: 0 .3em; min-width: 5em; font-weight: 700; }
+.name:focus { outline: 3px solid var(--accent-text); outline-offset: 4px; border-bottom-color: transparent; }
+.ctl { width: 100%; max-width: 22em; justify-self: center; height: auto; }
+.ctl-shadow { fill: var(--shadow); }
+.ctl-body { fill: var(--surface); stroke: var(--edge); stroke-width: 4; }
+.ctl-dpad { fill: var(--ink); }
+.ctl-btn { stroke: var(--edge); stroke-width: 3; }
+.ctl-small { fill: var(--muted); }
+
+/* panels, chips */
+.panel { background: var(--surface); border: 2px solid var(--line); border-radius: 14px; padding: 1em 1.2em; min-width: 0; }
+.label { font-family: var(--font-mono); font-size: .7em; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 0 0 .6em; }
+.chips { display: flex; flex-wrap: wrap; gap: .5em; list-style: none; padding: 0; margin: 0; }
+.chip {
+  padding: .2em .8em; border: 2px solid var(--line); border-radius: 999px;
+  background: var(--surface); font-size: .85em; font-weight: 500;
+}
+.chip.fill { background: var(--fill); color: var(--on-fill); border-color: var(--edge); }
+.chip small { font-family: var(--font-mono); font-size: .8em; opacity: .75; margin-left: .3em; }
+
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4em; align-items: start; }
+.points { list-style: none; margin: 0; padding: 0; display: grid; gap: .85em; }
+.points b { font-weight: 700; }
+
+/* level cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(13em, 1fr)); gap: 1.2em; }
+.card {
+  display: grid; gap: .45em; text-align: left; cursor: pointer;
+  background: var(--fill); color: var(--on-fill);
+  border: 2px solid var(--edge); border-radius: 14px; padding: 1em 1.1em;
+  box-shadow: 5px 5px 0 var(--shadow);
+  transition: transform .12s, box-shadow .12s;
+}
+.card:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--shadow); }
+.card:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--shadow); }
+.card-no, .go { font-family: var(--font-mono); font-size: .7em; text-transform: uppercase; letter-spacing: .12em; }
+.card h3 { font-size: 1.2em; }
+.card p { font-size: .9em; }
+.bigidea { display: grid; gap: .4em; }
+.bigidea p:last-child { font-family: var(--font-display); font-weight: 500; font-size: 1.1em; line-height: 1.35; max-width: 34em; text-wrap: balance; }
+
+/* stat meters */
+.stats { display: grid; gap: .8em; }
+.stat { display: grid; grid-template-columns: minmax(6.5em, 1.3fr) 3fr 2em; gap: .8em; align-items: center; font-size: .95em; }
+.stat b { font-family: var(--font-mono); font-variant-numeric: tabular-nums; text-align: right; }
+.meter { height: .9em; border: 2px solid var(--edge); border-radius: 999px; background: var(--bg); overflow: hidden; }
+.meter i { display: block; height: 100%; width: calc(var(--v) * 1%); background: var(--c-games); animation: fill .8s ease-out both; }
+
+/* steps and grids */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(10em, 1fr)); gap: 1em; }
+.step { display: grid; gap: .5em; align-content: start; }
+.step .n {
+  width: 2em; height: 2em; display: grid; place-items: center; border-radius: 50%;
+  background: var(--c-content); color: var(--on-fill); border: 2px solid var(--edge);
+  font-family: var(--font-mono); font-size: .85em;
+}
+.step p, .item p { font-size: .88em; color: var(--muted); }
+.item { display: grid; gap: .35em; align-content: start; }
+.item .label { margin: 0; color: var(--accent-text); }
+.rules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8em 1.6em; list-style: none; margin: 0; padding: 0; font-size: .92em; }
+.rules b { font-weight: 700; }
+.rows { display: grid; gap: .8em; }
+
+/* code */
+.code {
+  margin: 0; background: var(--code-bg); color: #F0EEFF; border: 2px solid var(--edge); border-radius: 14px;
+  padding: 1em 1.2em; font-family: var(--font-mono); font-size: .82em; line-height: 1.75;
+  overflow-x: auto; box-shadow: 5px 5px 0 var(--shadow);
+}
+.tk-k { color: #FF8A7B; } .tk-s { color: #3FD2A4; } .tk-n { color: #FFC53D; } .tk-c { color: #9A95CC; }
+.out { margin-top: .9em; font-family: var(--font-mono); font-size: .82em; display: flex; flex-wrap: wrap; gap: .8em; align-items: baseline; }
+.out span:first-child { color: var(--muted); text-transform: uppercase; letter-spacing: .12em; font-size: .85em; }
+.defs { display: grid; gap: .3em; font-size: .92em; }
+.defs b { font-family: var(--font-mono); font-weight: 500; }
+
+/* tables */
+.table-wrap { overflow-x: auto; border: 2px solid var(--line); border-radius: 14px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 34em; }
+th, td { padding: .6em .9em; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:last-child > * { border-bottom: 0; }
+thead th { font-family: var(--font-mono); font-size: .68em; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 500; }
+tbody th { font-weight: 700; white-space: nowrap; }
+tbody th::before { content: ""; display: inline-block; width: .8em; height: .8em; margin-right: .6em; background: var(--fill); border: 2px solid var(--edge); border-radius: 3px; vertical-align: -.05em; }
+.matrix th, .matrix td { text-align: center; }
+.matrix tbody th { text-align: left; }
+.dot { display: inline-block; width: 1.1em; height: 1.1em; border-radius: 50%; border: 2px solid var(--line); vertical-align: middle; }
+.dot.on { background: var(--fill); border-color: var(--edge); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.caption { font-size: .85em; color: var(--muted); }
+
+/* end slide */
+.big-thanks { font-size: 3.2em; font-weight: 800; line-height: 1.02; letter-spacing: -.02em; }
+.ask { display: grid; gap: .4em; }
+.ask p:last-child { font-family: var(--font-display); font-weight: 500; font-size: 1.15em; line-height: 1.35; text-wrap: balance; }
+.btn-row { display: flex; flex-wrap: wrap; gap: .8em; }
+
+
+/* speaker script */
+.script { font-size: .85em; font-style: italic; color: var(--muted); border-top: 2px dashed var(--line); padding-top: .7em; max-width: 60em; }
+
+
+/* matching game */
+.gamebar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8em; }
+.score { font-family: var(--font-mono); font-size: .85em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.match { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2em; }
+.mcol { display: grid; gap: .6em; align-content: start; }
+.tile {
+  padding: .6em .9em; text-align: left; cursor: pointer; font-size: .95em; font-weight: 600;
+  background: var(--surface); color: var(--ink);
+  border: 2px solid var(--edge); border-radius: 12px; box-shadow: 3px 3px 0 var(--shadow);
+  transition: transform .12s, box-shadow .12s, background .12s;
+}
+.tile.term { font-family: var(--font-mono); font-weight: 500; }
+.tile:hover:not(:disabled) { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--shadow); }
+.tile[aria-pressed="true"] { background: var(--c-digital); color: var(--on-fill); }
+.tile.done { background: var(--fill); color: var(--on-fill); box-shadow: none; cursor: default; opacity: 1; }
+.tile.wrong { animation: shake .35s; }
+@keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+.win { font-family: var(--font-display); font-weight: 500; font-size: 1.1em; color: var(--accent-text); }
+@media (prefers-reduced-motion: reduce) { .tile, .tile.wrong { transition: none; animation: none; } }
+
+/* bottom nav */
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 1em; }
+.nav-btn {
+  padding: .55em 1.2em; border: 2px solid var(--edge); border-radius: 10px; background: var(--surface);
+  font-weight: 700; cursor: pointer; transition: transform .12s, box-shadow .12s;
+}
+.nav-btn.primary { background: var(--c-games); color: var(--on-fill); box-shadow: 4px 4px 0 var(--shadow); }
+.nav-btn.primary:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--shadow); }
+.nav-btn:disabled { opacity: .4; cursor: default; box-shadow: none; }
+.dots { display: flex; align-items: center; }
+.dot-btn { width: 1.6em; height: 1.6em; display: grid; place-items: center; background: none; border: 0; padding: 0; cursor: pointer; }
+.dot-btn::before { content: ""; width: .6em; height: .6em; border-radius: 50%; border: 2px solid var(--muted); }
+.dot-btn[aria-current="true"]::before { width: .95em; height: .95em; background: var(--c-games); border-color: var(--edge); }
+
+@media (max-width: 760px) {
+  .title-grid, .split { grid-template-columns: minmax(0, 1fr); }
+  .rules { grid-template-columns: minmax(0, 1fr); }
+  h1, .big-thanks { font-size: 2.6em; }
+  .ctl { max-width: 14em; }
+}
+@media (max-width: 560px) {
+  .dots { display: none; }
+  .brand { font-size: .62em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .slide, .meter i { animation: none; }
+  .card, .nav-btn { transition: none; }
+}
+</style>
+
+<div class="app">
+  <header class="bar">
+    <div class="brand"><span class="pip"></span>Unit 2 · Hobbies and Skills</div>
+    <div class="tools">
+      <span class="count" id="count" aria-live="polite">1 / 10</span>
+      <button class="icon-btn" id="theme" type="button" aria-label="Switch between light and dark theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg>
+      </button>
+      <button class="icon-btn" id="full" type="button" aria-label="Full screen">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="stage" id="stage">
+
+    <!-- 1 Title -->
+    <section class="slide" data-slide aria-label="Title">
+      <div class="wrap">
+        <div class="title-grid">
+          <div class="title-copy">
+            <p class="eyebrow">English · 11th grade · Unit 2</p>
+            <h1>Hobbies <em>&amp;</em> Skills</h1>
+            <p class="lead">How video games, content creation, digital content and coding turn free time into real skills.</p>
+            <p class="by">Presented by <span id="name" class="name" contenteditable="true" spellcheck="false" role="textbox" aria-label="Presenter name">Egemen</span></p>
+          </div>
+          <svg class="ctl" viewBox="0 0 360 240" role="img" aria-label="Game controller illustration">
+            <rect class="ctl-shadow" x="26" y="68" width="328" height="140" rx="70"/>
+            <rect class="ctl-body" x="16" y="56" width="328" height="140" rx="70"/>
+            <rect class="ctl-dpad" x="98" y="102" width="24" height="48" rx="4"/>
+            <rect class="ctl-dpad" x="86" y="114" width="48" height="24" rx="4"/>
+            <circle class="ctl-btn" cx="260" cy="102" r="14" fill="#FF6B5B"/>
+            <circle class="ctl-btn" cx="286" cy="126" r="14" fill="#FFC53D"/>
+            <circle class="ctl-btn" cx="260" cy="150" r="14" fill="#3FD2A4"/>
+            <circle class="ctl-btn" cx="234" cy="126" r="14" fill="#9AA5FF"/>
+            <rect class="ctl-small" x="148" y="122" width="24" height="9" rx="4.5"/>
+            <rect class="ctl-small" x="188" y="122" width="24" height="9" rx="4.5"/>
+          </svg>
+        </div>
+        <p class="script">(Hello everyone! I'm Egemen, and today I'll talk about how our hobbies turn into real skills.)</p>
+      </div>
+    </section>
+
+    <!-- 2 Level select -->
+    <section class="slide" data-slide aria-label="What I will talk about" hidden>
+      <div class="wrap">
+        <header class="s-head">
+          <p class="eyebrow">Level select</p>
+          <h2>What I will talk about</h2>
+        </header>
+        <div class="cards">
+          <button class="card" type="button" data-go="3" style="--fill: var(--c-games)">
+            <span class="card-no">Level 1</span>
+            <h3>Video Games</h3>
+            <p>Play, compete and solve problems.</p>
+            <span class="go">Go to level →</span>
+          </button>
+          <button class="card" type="button" data-go="4" style="--fill: var(--c-content)">
+            <span class="card-no">Level 2</span>
+            <h3>Content Creation</h3>
+            <p>Make videos and share them.</p>
+            <span class="go">Go to level →</span>
+          </button>
+          <button class="card" type="button" data-go="5" style="--fill: var(--c-digital)">
+            <span class="card-no">Level 3</span>
+            <h3>Digital Content</h3>
+            <p>Create for screens, safely.</p>
+            <span class="go">Go to level →</span>
+          </button>
+          <button class="card" type="button" data-go="6" style="--fill: var(--c-code)">
+            <span class="card-no">Level 4</span>
+            <h3>Coding</h3>
+            <p>Write the instructions behind games.</p>
+            <span class="go">Go to level →</span>
+          </button>
+        </div>
+        <div class="bigidea">
+          <p class="label">Big idea</p>
+          <p>Every hobby teaches a skill when you practise on purpose.</p>
+        </div>
+        <p class="script">(I have four levels: video games, content creation, digital content and coding. My big idea is that every hobby teaches a skill when you practise on purpose.)</p>
+      </div>
+    </section>
+
+    <!-- 3 Video games -->
+    <section class="slide" data-slide aria-label="Video games" hidden>
+      <div class="wrap">
+        <header class="s-head">
+          <p class="eyebrow">Level 1</p>
+          <h2>Video Games</h2>
+        </header>
+        <div class="split">
+          <ul class="points">
+            <li><b>Fun and relaxing.</b> Gaming helps me switch off after a long school day.</li>
+            <li><b>Strategy.</b> I plan my moves, test new ideas and learn from every loss.</li>
+            <li><b>Teamwork.</b> I talk to friends online and we work together to win.</li>
+            <li><b>English.</b> Games, chats and guides improve my vocabulary every day.</li>
+          </ul>
+          <div class="rows">
+            <div class="panel">
+              <p class="label">Skill stats</p>
+              <div class="stats">
+                <div class="stat"><span>Quick reactions</span><div class="meter" style="--v: 82"><i></i></div><b>82</b></div>
+                <div class="stat"><span>Strategic thinking</span><div class="meter" style="--v: 88"><i></i></div><b>88</b></div>
+                <div class="stat"><span>Teamwork</span><div class="meter" style="--v: 90"><i></i></div><b>90</b></div>
+                <div class="stat"><span>English vocabulary</span><div class="meter" style="--v: 76"><i></i></div><b>76</b></div>
+              </div>
+            </div>
+            <div>
+              <p class="label">Popular genres</p>
+              <ul class="chips">
+                <li class="chip">Action</li><li class="chip">Strategy</li><li class="chip">Puzzle</li><li class="chip">Sports</li><li class="chip">RPG</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p class="script">(Gaming is fun, but it also builds strategy, teamwork and English vocabulary. My highest stat is teamwork.)</p>
+      </div>
+    </section>
+
+    <!-- 4 Content creation -->
+    <section class="slide" data-slide aria-label="Content creation" hidden>
+      <div class="wrap">
+        <header class="s-head">
+          <p class="eyebrow">Level 2</p>
+          <h2>Content Creation</h2>
+          <p class="lead">Content creation means making videos, streams, posts or images and sharing them with an audience.</p>
+        </header>
+        <ol class="steps">
+          <li class="panel step"><span class="n">1</span><h3>Idea</h3><p>Pick a topic you enjoy and others want to see.</p></li>
+          <li class="panel step"><span class="n">2</span><h3>Record</h3><p>Capture gameplay, your screen or your voice.</p></li>
+          <li class="panel step"><span class="n">3</span><h3>Edit</h3><p>Cut mistakes. Add music, effects and subtitles.</p></li>
+          <li class="panel step"><span class="n">4</span><h3>Publish</h3><p>Write a clear title and make an eye-catching thumbnail.</p></li>
+          <li class="panel step"><span class="n">5</span><h3>Improve</h3><p>Read the comments, check the views and try again.</p></li>
+        </ol>
+        <div class="split">
+          <div>
+            <p class="label">Tools</p>
+            <ul class="chips">
+              <li class="chip fill" style="--fill: var(--c-content)">OBS Studio<small>recording</small></li>
+              <li class="chip fill" style="--fill: var(--c-content)">CapCut<small>editing</small></li>
+              <li class="chip fill" style="--fill: var(--c-content)">DaVinci Resolve<small>editing</small></li>
+              <li class="chip fill" style="--fill: var(--c-content)">Canva<small>thumbnails</small></li>
+            </ul>
+          </div>
+          <div>
+            <p class="label">Skills it builds</p>
+            <ul class="chips">
+              <li class="chip">Creativity</li><li class="chip">Communication</li><li class="chip">Time management</li><li class="chip">Patience</li>
+            </ul>
+          </div>
+        </div>
+        <p class="script">(Content creation has five steps: idea, record, edit, publish and improve. It needs creativity and a lot of patience.)</p>
+      </div>
+    </section>
+
+    <!-- 5 Digital content -->
+    <section class="slide" data-slide aria-label="Digital content" hidden>
+      <div class="wrap">
+        <header class="s-head">
+          <p class="eyebrow">Level 3</p>
+          <h2>Digital Content</h2>
+          <p class="lead">Digital content is any information made to be used on a screen.</p>
+        </header>
+        <div class="steps">
+          <div class="panel item"><p class="label">Video</p><h3>Clips and vlogs</h3><p>Gameplay clips, tutorials, vlogs</p></div>
+          <div class="panel item"><p class="label">Audio</p><h3>Sound</h3><p>Podcasts, music, voice-overs</p></div>
+          <div class="panel item"><p class="label">Images</p><h3>Graphics</h3><p>Thumbnails, posters, logos</p></div>
+          <div class="panel item"><p class="label">Text</p><h3>Writing</h3><p>Blogs, captions, scripts</p></div>
+          <div class="panel item"><p class="label">Interactive</p><h3>Play and use</h3><p>Games, apps, quizzes</p></div>
+        </div>
+        <div class="panel">
+          <p class="label">Smart creator rules</p>
+          <ul class="rules">
+            <li><b>Respect copyright.</b> Use free-to-use music and pictures, or ask for permission.</li>
+            <li><b>Protect your privacy.</b> Never share your address, school or passwords.</li>
+            <li><b>Be kind.</b> Write comments you would say face to face.</li>
+            <li><b>Check the facts.</b> Make sure information is true before you post it.</li>
+          </ul>
+        </div>
+        <p class="script">(Digital content is anything made for a screen. Be a smart creator: respect copyright, protect your privacy, be kind and check the facts.)</p>
+      </div>
+    </section>
+
+    <!-- 6 Coding -->
+    <section class="slide" data-slide aria-label="Coding" hidden>
+      <div class="wrap">
+        <header class="s-head">
+          <p class="eyebrow">Level 4</p>
+          <h2>Coding</h2>
+          <p class="lead">Coding means writing instructions that a computer can follow. Every video game starts as code.</p>
+        </header>
+        <div class="split">
+          <div class="rows">
+            <div>
+              <p class="label">Languages</p>
+              <ul class="points">
+                <li><b>Scratch.</b> First steps with colourful blocks.</li>
+                <li><b>Python.</b> Easy to read and great for beginners.</li>
+                <li><b>JavaScript.</b> Games and websites in the browser.</li>
+                <li><b>C#.</b> Used in game engines such as Unity.</li>
+              </ul>
+            </div>
+            <div class="defs">
+              <p><b>bug</b> = a mistake in the code</p>
+              <p><b>debug</b> = find and fix the mistake</p>
+            </div>
+          </div>
+          <div>
+            <pre class="code" aria-label="Python example"><span class="tk-k">player</span> = <span class="tk-s">"Alex"</span>
+<span class="tk-k">score</span> = <span class="tk-n">0</span>   <span class="tk-c"># score starts at zero</span>
+
+<span class="tk-k">for</span> coin <span class="tk-k">in</span> range(<span class="tk-n">10</span>):
+    score = score + <span class="tk-n">10</span>   <span class="tk-c"># each coin = 10 points</span>
+
+print(player, <span class="tk-s">"scored"</span>, score)</pre>
+            <p class="out"><span>Output</span><span>Alex scored 100</span></p>
+          </div>
+        </div>
+        <p class="script">(Coding means writing instructions for a computer. Here, ten coins give 100 points. A bug is a mistake, and we debug it.)</p>
+      </div>
+    </section>
+
+    <!-- 7 Language toolbox -->
+    <section class="slide" data-slide aria-label="Talking about hobbies" hidden>
+      <div class="wrap">
+        <header class="s-head">
+          <p class="eyebrow">Language toolbox</p>
+          <h2>Talking about hobbies</h2>
+        </header>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Structure</th><th scope="col">Example</th></tr></thead>
+            <tbody>
+              <tr><td>be into + noun / -ing</td><td>I'm into video editing.</td></tr>
+              <tr><td>be good at + -ing</td><td>She is good at solving puzzles.</td></tr>
+              <tr><td>be interested in + -ing</td><td>We're interested in learning Python.</td></tr>
+              <tr><td>spend time + -ing</td><td>I spend hours practising my aim.</td></tr>
+              <tr><td>have been + -ing (for / since)</td><td>I've been making videos for two years.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <p class="label">Key words</p>
+          <ul class="chips">
+            <li class="chip">skill</li><li class="chip">talent</li><li class="chip">practise</li><li class="chip">improve</li><li class="chip">creativity</li>
+            <li class="chip">challenge</li><li class="chip">audience</li><li class="chip">upload</li><li class="chip">platform</li><li class="chip">debug</li>
+          </ul>
+        </div>
+        <p class="script">(These structures help us talk about hobbies. For example: I'm into video editing, and I've been making videos for two years.)</p>
+      </div>
+    </section>
+
+    <!-- 8 Skills map -->
+    <section class="slide" data-slide aria-label="What my hobbies teach me" hidden>
+      <div class="wrap">
+        <header class="s-head">
+          <p class="eyebrow">Skills map</p>
+          <h2>What my hobbies teach me</h2>
+          <p class="caption">A filled circle means the hobby is a strong way to practise that skill.</p>
+        </header>
+        <div class="table-wrap">
+          <table class="matrix">
+            <thead>
+              <tr><th scope="col" style="text-align:left">Hobby</th><th scope="col">Creativity</th><th scope="col">Problem solving</th><th scope="col">Teamwork</th><th scope="col">Communication</th><th scope="col">Digital literacy</th><th scope="col">Patience</th></tr>
+            </thead>
+            <tbody>
+              <tr style="--fill: var(--c-games)"><th scope="row">Video games</th>
+                <td><span class="dot"><span class="sr">No</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot"><span class="sr">No</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td></tr>
+              <tr style="--fill: var(--c-content)"><th scope="row">Content creation</th>
+                <td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot"><span class="sr">No</span></span></td><td><span class="dot"><span class="sr">No</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td></tr>
+              <tr style="--fill: var(--c-digital)"><th scope="row">Digital content</th>
+                <td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot"><span class="sr">No</span></span></td><td><span class="dot"><span class="sr">No</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot"><span class="sr">No</span></span></td></tr>
+              <tr style="--fill: var(--c-code)"><th scope="row">Coding</th>
+                <td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot"><span class="sr">No</span></span></td><td><span class="dot"><span class="sr">No</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td><td><span class="dot on"><span class="sr">Yes</span></span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="script">(This map shows that every hobby builds several skills at the same time.)</p>
+      </div>
+    </section>
+
+    <!-- 9 Thanks -->
+    <section class="slide" data-slide aria-label="Thank you" hidden>
+      <div class="wrap">
+        <header class="s-head">
+          <p class="eyebrow">Game complete</p>
+          <h2 class="big-thanks">Thank you!</h2>
+          <p class="lead">A hobby is fun today and useful tomorrow.</p>
+        </header>
+        <div class="panel ask">
+          <p class="label">Question for the class</p>
+          <p>What is your hobby, and which skill does it give you?</p>
+        </div>
+        <div class="btn-row">
+          <button class="nav-btn primary" type="button" data-go="1">Play again</button>
+          <button class="nav-btn" type="button" data-go="8">Skills map</button>
+          <button class="nav-btn" type="button" data-go="10">Matching game</button>
+        </div>
+        <p class="script">(A hobby is fun today and useful tomorrow. Thank you! What is your hobby, and which skill does it give you?)</p>
+      </div>
+    </section>
+
+    <!-- 10 Matching game -->
+    <section class="slide" data-slide aria-label="Matching game" hidden>
+      <div class="wrap">
+        <header class="s-head">
+          <p class="eyebrow">Bonus level</p>
+          <h2>Matching game</h2>
+          <p class="lead">Tap a word, then tap its meaning. Find all five pairs!</p>
+        </header>
+        <div class="gamebar">
+          <span class="score" id="mscore" aria-live="polite">Matches: 0 / 5</span>
+          <button class="nav-btn" id="mreset" type="button">Shuffle &amp; restart</button>
+        </div>
+        <div class="match">
+          <div class="mcol" id="mleft" role="group" aria-label="Words"></div>
+          <div class="mcol" id="mright" role="group" aria-label="Meanings"></div>
+        </div>
+        <p class="win" id="mwin" hidden>Game complete! Great job!</p>
+        <p class="script">(Now let’s play! Match each word with its meaning.)</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="nav">
+    <button class="nav-btn" id="prev" type="button">← Back</button>
+    <div class="dots" id="dots"></div>
+    <button class="nav-btn primary" id="next" type="button">Next →</button>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var slides = [].slice.call(document.querySelectorAll('[data-slide]'));
+  var total = slides.length, cur = -1;
+  var countEl = document.getElementById('count');
+  var prevBtn = document.getElementById('prev');
+  var nextBtn = document.getElementById('next');
+  var dotsEl = document.getElementById('dots');
+  var stage = document.getElementById('stage');
+  var dotBtns = [];
+
+  slides.forEach(function (s, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'dot-btn';
+    b.setAttribute('aria-label', 'Go to slide ' + (i + 1) + ': ' + (s.getAttribute('aria-label') || ''));
+    b.addEventListener('click', function () { go(i); });
+    dotsEl.appendChild(b);
+    dotBtns.push(b);
+  });
+
+  function clamp(i) { return Math.min(Math.max(i, 0), total - 1); }
+  function fromHash() {
+    var m = /^#slide-(\d+)$/.exec(location.hash);
+    return clamp(m ? parseInt(m[1], 10) - 1 : 0);
+  }
+  function show(i) {
+    if (i === cur) return;
+    cur = i;
+    slides.forEach(function (s, k) { s.hidden = k !== i; });
+    countEl.textContent = (i + 1) + ' / ' + total;
+    dotBtns.forEach(function (b, k) { b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+    prevBtn.disabled = i === 0;
+    nextBtn.disabled = i === total - 1;
+    slides[i].scrollTop = 0;
+  }
+  function go(i) {
+    i = clamp(i);
+    if (i === cur) return;
+    try { location.hash = 'slide-' + (i + 1); } catch (e) {}
+    show(i);
+  }
+
+  prevBtn.addEventListener('click', function () { go(cur - 1); });
+  nextBtn.addEventListener('click', function () { go(cur + 1); });
+  [].slice.call(document.querySelectorAll('[data-go]')).forEach(function (b) {
+    b.addEventListener('click', function () { go(parseInt(b.getAttribute('data-go'), 10) - 1); });
+  });
+  window.addEventListener('hashchange', function () { show(fromHash()); });
+
+  document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !/^BUTTON$/.test(t.tagName))) { e.preventDefault(); go(cur + 1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); go(cur - 1); }
+    else if (k === 'Home') { e.preventDefault(); go(0); }
+    else if (k === 'End') { e.preventDefault(); go(total - 1); }
+    else if (k === 'f' || k === 'F') { toggleFull(); }
+  });
+
+  var sx = 0, sy = 0;
+  stage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  stage.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? cur + 1 : cur - 1);
+  }, { passive: true });
+
+  // theme
+  try {
+    var saved = localStorage.getItem('hs-theme');
+    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  } catch (e) {}
+  function isDark() {
+    var t = root.getAttribute('data-theme');
+    if (t) return t === 'dark';
+    return window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+  document.getElementById('theme').addEventListener('click', function () {
+    var next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('hs-theme', next); } catch (e) {}
+  });
+
+  // full screen
+  var fullBtn = document.getElementById('full');
+  function toggleFull() {
+    try {
+      if (document.fullscreenElement) { document.exitFullscreen(); }
+      else {
+        var p = root.requestFullscreen();
+        if (p && p.catch) p.catch(function () {});
+      }
+    } catch (e) {}
+  }
+  if (!document.fullscreenEnabled) fullBtn.hidden = true;
+  fullBtn.addEventListener('click', toggleFull);
+
+  // presenter name
+  var nameEl = document.getElementById('name');
+  try {
+    var n = localStorage.getItem('hs-name');
+    if (n) nameEl.textContent = n;
+  } catch (e) {}
+  nameEl.addEventListener('input', function () {
+    try { localStorage.setItem('hs-name', nameEl.textContent); } catch (e) {}
+  });
+  nameEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { e.preventDefault(); nameEl.blur(); }
+  });
+
+  show(fromHash());
+})();
+</script>
+
+<script>
+(function () {
+  var pairs = [
+    ['podcasting', 'making audio shows that people listen to online'],
+    ['video games', 'electronic games you play on a screen'],
+    ['upcycling', 'turning old things into something new and useful'],
+    ['volunteering', 'helping other people without being paid'],
+    ['origami', 'the art of folding paper into shapes']
+  ];
+  var fills = ['var(--c-games)', 'var(--c-content)', 'var(--c-digital)', 'var(--c-code)'];
+  var left = document.getElementById('mleft'), right = document.getElementById('mright');
+  var scoreEl = document.getElementById('mscore'), winEl = document.getElementById('mwin');
+  var sel = null, score = 0, busy = false;
+
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function tile(id, text, side) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tile' + (side === 'L' ? ' term' : '');
+    b.textContent = text;
+    b.setAttribute('aria-pressed', 'false');
+    b.dataset.id = id; b.dataset.side = side;
+    b.addEventListener('click', function () { pick(b); });
+    return b;
+  }
+  function build() {
+    left.textContent = ''; right.textContent = '';
+    sel = null; score = 0; busy = false;
+    scoreEl.textContent = 'Matches: 0 / ' + pairs.length;
+    winEl.hidden = true;
+    var idx = pairs.map(function (_, i) { return i; });
+    shuffle(idx).forEach(function (i) { left.appendChild(tile(i, pairs[i][0], 'L')); });
+    shuffle(idx).forEach(function (i) { right.appendChild(tile(i, pairs[i][1], 'R')); });
+  }
+  function pick(b) {
+    if (busy || b.classList.contains('done')) return;
+    if (sel === b) { b.setAttribute('aria-pressed', 'false'); sel = null; return; }
+    if (!sel || sel.dataset.side === b.dataset.side) {
+      if (sel) sel.setAttribute('aria-pressed', 'false');
+      sel = b; b.setAttribute('aria-pressed', 'true'); return;
+    }
+    var a = sel; sel = null;
+    a.setAttribute('aria-pressed', 'false');
+    if (a.dataset.id === b.dataset.id) {
+      [a, b].forEach(function (t) {
+        t.classList.add('done'); t.disabled = true;
+        t.style.setProperty('--fill', fills[score % fills.length]);
+      });
+      score++;
+      scoreEl.textContent = 'Matches: ' + score + ' / ' + pairs.length;
+      if (score === pairs.length) winEl.hidden = false;
+    } else {
+      busy = true;
+      a.classList.add('wrong'); b.classList.add('wrong');
+      setTimeout(function () {
+        a.classList.remove('wrong'); b.classList.remove('wrong'); busy = false;
+      }, 400);
+    }
+  }
+  document.getElementById('mreset').addEventListener('click', build);
+  build();
+})();
+</script>
+
+</body></html>
